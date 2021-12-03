@@ -7,10 +7,10 @@ import org.apache.hadoop.hbase.util.Bytes;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+ 
 public class SimplePut {
 
-    private static byte[] caracteristiques_CF = Bytes.toBytes("personal");
+    private static byte[] caracteristiques_CF = Bytes.toBytes("caracteristiques");
     private static byte[] emplacement_CF = Bytes.toBytes("emplacement");
 
     private static byte[] dimension_COLUMN = Bytes.toBytes("dimension");
