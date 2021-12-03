@@ -14,7 +14,7 @@ public class SimpleGet {
     private static byte[] caracteristiques_CF = Bytes.toBytes("caracteristiques");
     private static byte[] emplacement_CF = Bytes.toBytes("emplacement");
 
-   
+
     public static void main(String[] args) throws IOException {
         Configuration conf = HBaseConfiguration.create();
         Connection connection = ConnectionFactory.createConnection(conf);
@@ -26,34 +26,43 @@ public class SimpleGet {
             Get get = new Get(Bytes.toBytes("1"));
 
             get.addColumn(caracteristiques_CF, dimension_COLUMN);
+            get.addColumn(caracteristiques_CF, nombre_de_chambre_COLUMN);
             get.addColumn(emplacement_CF, ville_COLUMN);
+            get.addColumn(emplacement_CF, pays_COLUMN);
+
 
             Result result = table.get(get);
 
-            byte[] nameValue = result.getValue(PERSONAL_CF, NAME_COLUMN);
-            System.out.println("dimension: " + Bytes.toString(dimensionValue));
+            byte[] dimensionValue = result.getValue(caracteristiques_CF, dimension_COLUMN);
+            System.out.println("Name: " + Bytes.toString(dimensionValue));
 
-            byte[] fieldValue = result.getValue(PROFESSIONAL_CF, FIELD_COLUMN);
-            System.out.println("ville: " + Bytes.toString(villeValue));
+            byte[] nombre_de_chambreValue = result.getValue(caracteristiques_CF, nombre_de_chambre_COLUMN);
+            System.out.println("Field: " + Bytes.toString(nombre_de_chambreValue));
+            
+            byte[] villeValue = result.getValue(emplacement_CF, ville_COLUMN);
+            System.out.println("Name: " + Bytes.toString(villeValue));
+
+            byte[] paysValue = result.getValue(emplacement_CF, pays_COLUMN);
+            System.out.println("Field: " + Bytes.toString(paysValue));
 
             System.out.println();
             System.out.println("SimpleGet multiple results in one go:");
 
             List<Get> getList = new ArrayList<Get>();
-            Get get1 = new Get(Bytes.toBytes("1"));
-            get1.addColumn(caracteristiques_CF, dimension_COLUMN);
+            Get get1 = new Get(Bytes.toBytes("2"));
+            get1.addColumn(caracteristiques_CF, nombre_de_chambre_COLUMN);
 
-            Get get2 = new Get(Bytes.toBytes("2"));
-            get1.addColumn(caracteristiques_CF, dimension_COLUMN);
+            Get get2 = new Get(Bytes.toBytes("3"));
+            get1.addColumn(caracteristiques_CF, nombre_de_chambre_COLUMN);
 
             getList.add(get1);
             getList.add(get2);
 
             Result[] results = table.get(getList);
 
-            for (Result res : results) {NameName
-                nameValue = res.getValue(caracteristiques_CF, dimension_COLUMN);
-                System.out.println("dimension: " + Bytes.toString(dimensionValue));
+            for (Result res : results) {
+                nombre_de_chambreValue = res.getValue(caracteristiques_CF, nombre_de_chambre_COLUMN);
+                System.out.println("nombre_de_chambre: " + Bytes.toString(nombre_de_chambreValue));
             }
         } finally {
             connection.close();
